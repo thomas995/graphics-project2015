@@ -1,1 +1,1 @@
-//this is the README document.
+Space Invaders in HTML by Thomas McNamara.
