@@ -3,7 +3,8 @@ var leftPressed = false;
 var rightPressed = false;
 var spacePressed = false;
 
-var Game = function() {
+var Game = function() 
+{
 	this.canvas = document.getElementById('canvas');
 	this.context = this.canvas.getContext("2d");
 
@@ -25,7 +26,8 @@ var Game = function() {
 
 	this.interval = null;
 };
-	Game.prototype.initialize = function() {
+	Game.prototype.initialize = function() 
+    {
 		this.player = new Player(this.images['player']);
 		this.score = 0; // score at the beginning of the game
 		this.level = 0; // level at the beginning of the game
@@ -40,8 +42,10 @@ var Game = function() {
 	}
 
     // Keyboard controls for moving the players spaceship
-	Game.prototype.bindEvents = function() {
-		$(document).keydown(function(e) {
+	Game.prototype.bindEvents = function()
+    {
+		$(document).keydown(function(e) 
+                            {
 		  	var keyCode = e.keyCode || e.which;
 		  	switch (keyCode) {
 			    case 37: // left
@@ -58,9 +62,11 @@ var Game = function() {
 		  	}
 		});
 
-		$(document).keyup(function(e) {
+		$(document).keyup(function(e)
+        {
 		  var keyCode = e.keyCode || e.which;
-		  switch (keyCode) {
+		  switch (keyCode) 
+          {
 			    case 37: // left
 			    	leftPressed = false;
 			    break;
@@ -74,34 +80,42 @@ var Game = function() {
 		});
 	};
     // Loads images to the canvas
-	Game.prototype.loadImage = function(name) {
+	Game.prototype.loadImage = function(name) 
+    {
 		  this.images[name] = new Image();
-		  this.images[name].onload = function() { 
+		  this.images[name].onload = function() 
+          { 
 		      game.resourceLoaded();
 		  }
           // Where the images are located
 		  this.images[name].src = "images/" + name + ".png"; 
 	}
 
-	Game.prototype.resourceLoaded = function() {
+	Game.prototype.resourceLoaded = function() 
+    {
 		this.numResourcesLoaded += 1;
-		if(this.numResourcesLoaded === this.totalResources) {
+		if(this.numResourcesLoaded === this.totalResources)
+        {
 			this.initialize();
 		}
 	}
 
-	Game.prototype.redraw = function() {
+	Game.prototype.redraw = function() 
+    {
 		this.canvas.width = this.canvas.width; // clears the canvas 
 		this.player.draw(this.context); // Draw enemies
-		for (var i = 0; i < this.enemies.length; i++) {
+		for (var i = 0; i < this.enemies.length; i++) 
+        {
 			// Skip dead enemies	
-			if (game.enemies[i].dead) {
+			if (game.enemies[i].dead) 
+            {
 				continue;				
 			}
 			this.enemies[i].draw(this.context);
 		};
 		// Draw enemy missiles
-		for (missile in this.missiles) {
+		for (missile in this.missiles) 
+        {
 			this.missiles[missile].draw(this.context);
 		}	
         // Draw score
@@ -113,13 +127,15 @@ var Game = function() {
 		this.context.fillText("Level: " + this.level, 130, 20);
 	}
 
-	Game.prototype.update = function() {
+	Game.prototype.update = function() 
+    {
 		if (game.state === 'pause') { return; }
 		if (game.state === 'dead') { game.updateDead() }
 		if (game.state === 'playing') { game.play() }
 	}
 
-	Game.prototype.updateDead = function() {
+	Game.prototype.updateDead = function() 
+    {
 		this.missiles = [];
 		this.enemies = [];
 
@@ -148,7 +164,8 @@ var Game = function() {
 		this.stop();
 	}
 
-	Game.prototype.play = function() {
+	Game.prototype.play = function() 
+    {
 		this.totalFrames++;
 		this.player.update();
 		if ( leftPressed) { this.player.moveLeft() }
@@ -156,12 +173,14 @@ var Game = function() {
 		if ( spacePressed) { this.player.shoot(); }
 
 		// Update enemies
-		for (var i = 0; i < this.enemies.length; i++) {
+		for (var i = 0; i < this.enemies.length; i++) 
+        {
 			this.enemies[i].update();
 		};
 
 		// Update enemy missiles
-		for (var i = 0; i < this.missiles.length; i++) {
+		for (var i = 0; i < this.missiles.length; i++) 
+        {
 			missile = this.missiles[i];
 			missile.update();
 			// Delete missile if missile is out of sight
@@ -170,8 +189,10 @@ var Game = function() {
 			}
 
 			// Player's missile collides with enemy's missile
-			for (var j = 0; j < this.player.missiles.length; j++) {
-				if (missile.collide(this.player.missiles[j])) {
+			for (var j = 0; j < this.player.missiles.length; j++) 
+            {
+				if (missile.collide(this.player.missiles[j])) 
+                {
 					this.missiles.splice(i, 1);		
 					this.player.missiles.splice(j, 1);
 				}
@@ -180,9 +201,11 @@ var Game = function() {
 		this.redraw();
 	}
 
-	Game.prototype.aliveEnemies = function() {
+	Game.prototype.aliveEnemies = function() 
+    {
 		var enemies = [];
-		for (var i = 0; i < this.enemies.length; i++) {
+		for (var i = 0; i < this.enemies.length; i++) 
+        {
 			if (!this.enemies[i].dead) {
 				enemies.push(this.enemies[i]);
 			}
@@ -190,17 +213,20 @@ var Game = function() {
 		return enemies;
 	}
 
-	Game.prototype.reset = function() {
+	Game.prototype.reset = function() 
+    {
 		clearInterval(this.interval);
 		game = new Game();
 	}
 
-	Game.prototype.stop = function() {
+	Game.prototype.stop = function() 
+    {
 		clearInterval(this.interval);
 		game = null;
 	}
 
-	Game.prototype.nextLevel = function() {
+	Game.prototype.nextLevel = function() 
+    {
 		this.levelReset();
 		this.level++;
 		// Make the next level harder
@@ -209,7 +235,8 @@ var Game = function() {
         this.lives = this.lives++;
 	}
 
-	Game.prototype.levelReset = function() {
+	Game.prototype.levelReset = function() 
+    {
 		this.enemies = [];
 
 		this.enemySpeed = 0.5;
@@ -224,26 +251,33 @@ var Game = function() {
 		};
 	}
 
-$('button.start').click(function() {
+$('button.start').click(function() 
+{
 	// Start game
 	game = new Game();
 });
-$('button.reset').click(function() {
+$('button.reset').click(function() 
+{
 	// Start game
 	game.reset();
 });
 
-$('button.stop').click(function() {
+$('button.stop').click(function() 
+{
 	// Start game
 	game.stop();
 });
 
-$('button.pause').click(function() {
+$('button.pause').click(function()
+{
 	console.log(this);
-	if (game.state === 'pause') {
+	if (game.state === 'pause') 
+    {
 		game.state = 'playing';
 		$(this).html('Wait');
-	} else {
+	} 
+    else 
+    {
 		game.state = 'pause';
 		$(this).html('Continue');
 	}

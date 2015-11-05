@@ -17,7 +17,8 @@ var Player = function(image){
 }
 	Player.prototype.update = function() {
 		// Update player's missiles
-		for (var i = 0; i < this.missiles.length; i++) {
+		for (var i = 0; i < this.missiles.length; i++) 
+        {
 			this.missiles[i].update();
 			// Delete missile if missile is out of sight
 			if (this.missiles[i].y + this.missiles[i].height < 0) {
@@ -25,37 +26,45 @@ var Player = function(image){
 			}
 		};
 	}
-	Player.prototype.draw = function(context) {
+	Player.prototype.draw = function(context) 
+    {
 		context.drawImage(this.image, this.x, this.y);
 		this.drawLives(context);
         
 		context.fillStyle = "black";
-		for (missile in this.missiles) {
+		for (missile in this.missiles)
+        {
 			this.missiles[missile].draw(context);
 		}
 	}
 
-	Player.prototype.drawLives = function(context) {
-		for (var i = 0; i < this.lives; i++) {
+	Player.prototype.drawLives = function(context) 
+    {
+		for (var i = 0; i < this.lives; i++) 
+        {
 			context.drawImage(this.image, 20  + i * (this.width / 2 + 10), 620, this.width / 2, this.height / 2);
 		};
 	}
 
-	Player.prototype.moveLeft = function() {
+	Player.prototype.moveLeft = function() 
+    {
 		this.x = Math.max(40, this.x - this.speed);
 	}
 
-	Player.prototype.moveRight = function() {
+	Player.prototype.moveRight = function() 
+    {
 		this.x = Math.min(game.width - this.width - 40, this.x + this.speed);
 	}
 
-	Player.prototype.shoot = function() {
+	Player.prototype.shoot = function() 
+    {
 		if (this.missiles.length < 1 || this.missiles[this.missiles.length - 1].y < this.y - this.height - this.fireRate) {
 			this.missiles[this.missiles.length] = new PlayerMissile(this);
 		}
 	}
 
-	Player.prototype.die = function() {
+	Player.prototype.die = function() 
+    {
 		this.lives--;
         this.score - 100;
 		// Delete all missiles

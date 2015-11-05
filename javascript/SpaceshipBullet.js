@@ -6,19 +6,24 @@ var PlayerMissile = function(player) {
 
 	this.speed = 15;
 }
-	PlayerMissile.prototype.update = function() {
+	PlayerMissile.prototype.update = function() 
+    {
 		this.y -= this.speed;
 		// Check if missile colides with enemy
-		for (var i = 0; i < game.enemies.length; i++) {
-			if (this.collide(game.enemies[i]) && !game.enemies[i].dead) {
+		for (var i = 0; i < game.enemies.length; i++) 
+        {
+			if (this.collide(game.enemies[i]) && !game.enemies[i].dead)
+            {
 				// Remove enemy and missile
 				game.enemies[i].die();
 				this.y = -1;
 			}
 		};
 
-		for (var i = 0; i < game.flyingSaucers.length; i++) {
-			if (this.collide(game.flyingSaucers[i]) && !game.flyingSaucers[i].dead) {
+		for (var i = 0; i < game.flyingSaucers.length; i++) 
+        {
+			if (this.collide(game.flyingSaucers[i]) && !game.flyingSaucers[i].dead)
+            {
 				// Remove enemy and missile
 				game.flyingSaucers[i].die();
 				this.y = -1;
@@ -27,7 +32,8 @@ var PlayerMissile = function(player) {
 		
 	}
 
-	PlayerMissile.prototype.draw = function(context) {
+	PlayerMissile.prototype.draw = function(context) 
+    {
 	 	context.beginPath();
 	    context.moveTo(this.x, this.y);
 	    context.lineTo(this.x, this.y - this.height);
@@ -37,7 +43,8 @@ var PlayerMissile = function(player) {
 	    context.fill();
 	}
 
-	PlayerMissile.prototype.collide = function(enemy) {
+	PlayerMissile.prototype.collide = function(enemy)
+    {
 		horizontalCollision = (this.x < enemy.x && enemy.x < (this.x + this.width)) || 
 								(this.x < enemy.x + enemy.width && enemy.x + enemy.width < this.x + this.width) ||
 								(enemy.x < this.x && this.x + this.width < enemy.x + enemy.width)

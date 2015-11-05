@@ -1,4 +1,5 @@
-var EnemyMissile = function(enemy) {
+var EnemyMissile = function(enemy) 
+{
 	this.width = 5;
 	this.height = 5;
 	this.x = enemy.x + enemy.width / 2 - this.width / 3;
@@ -6,15 +7,18 @@ var EnemyMissile = function(enemy) {
 
 	this.speed = 5;
 }
-	EnemyMissile.prototype.update = function() {
+	EnemyMissile.prototype.update = function() 
+    {
 		this.y += this.speed;
-		if (this.collide(game.player)) {
+		if (this.collide(game.player)) 
+        {
 			game.player.die();
 			this.y = 1000;
 		}
 	}
 
-	EnemyMissile.prototype.draw = function(context) {
+	EnemyMissile.prototype.draw = function(context)
+    {
 	 	context.beginPath();
 	    context.moveTo(this.x, this.y);
 	    context.lineTo(this.x, this.y + this.height);
@@ -24,7 +28,8 @@ var EnemyMissile = function(enemy) {
 	    context.fill();
 	}
 
-	EnemyMissile.prototype.collide = function(player) {
+	EnemyMissile.prototype.collide = function(player) 
+    {
 		horizontalCollision = (this.x < player.x && player.x < (this.x + this.width)) || 
 								(this.x < player.x + player.width && player.x + player.width < this.x + this.width) ||
 								(player.x < this.x && this.x + this.width < player.x + player.width)
