@@ -9,26 +9,25 @@
     <link rel='stylesheet' href='stylesheets/reset.css' type='text/css' />
     <link rel='stylesheet' href='stylesheets/main.css' type='text/css' />
 </head>
-
 <body>
     <header>
         <div class='container'>
+            <!-- Text at the top of the screen for the Name of the game and creator -->
             <h1>Space Invaders in Graphics Programming</h1>
              <h2>Thomas McNamara</h2>
         </div>
     </header>
-
     <div id='content' class="container">
-        <canvas id='canvas' width=960px height=640px> 
+        <canvas id='canvas' width=960px height=670px> <!-- Size of the canvas -->
         </canvas>
         <menu>
-            <button class='start'>Get Blastin'!</button>
+            <!-- Adds the buttons to the bottom of the screen -->
+            <button class='start'>Get Blastin'!</button> 
             <button class='pause'>Wait</button>
             <button class='stop'>End Game</button>
         </menu>
-
     </div>
-    <!-- Javascript - calling them from the folder of the same name --> 
+    <!-- Javascript - calling their code from the folder of the same name --> 
     <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.min.js'></script>
     <script type='text/javascript' src='javascript/Spaceship.js'></script>
     <script type='text/javascript' src='javascript/SpaceshipBullet.js'></script>

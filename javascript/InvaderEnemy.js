@@ -48,7 +48,6 @@ var Enemy = function(image, x, y) {
 	Enemy.prototype.die = function() {
 		this.dead = true;
 		game.score += 100 + game.level;
-		game.sounds['invaderkilled'].play()
 
 		enemyAlive = false;
 		for (var i = 0; i < game.enemies.length; i++) {

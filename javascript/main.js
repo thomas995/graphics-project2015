@@ -7,12 +7,13 @@ var Game = function() {
 	this.canvas = document.getElementById('canvas');
 	this.context = this.canvas.getContext("2d");
 
+    // variables being used for the canvas
 	this.width = this.canvas.width;
 	this.height = this.canvas.height;
 
 	this.images = {};
 	this.sounds = {};
-	this.totalResources = 3;
+	this.totalResources = 2;
 	this.numResourcesLoaded = 0;
 	this.fps = 60;
 	this.totalFrames = 0;
@@ -21,29 +22,23 @@ var Game = function() {
 
 	this.loadImage("player");
 	this.loadImage("invader");
-	this.loadImage("flying-saucer");
-
-	this.context.lineWidth=1;
-	this.context.fillStyle="#222";
-	this.context.lineStyle="#ffff00";
-	this.context.font="18px sans-serif";
-	this.context.fillText("Loading", 20, 20);
 
 	this.interval = null;
 };
 	Game.prototype.initialize = function() {
 		this.player = new Player(this.images['player']);
-		this.score = 0;
-		this.level = 0;
+		this.score = 0; // score at the beginning of the game
+		this.level = 1; // level at the beginning of the game
 		this.levelReset();
 
-		this.enemySpeed = 0.5;
+		this.enemySpeed = 1;
 
 		this.state = 'playing';
 		this.bindEvents();
 		this.interval = setInterval(this.update, 1000 / this.fps);
 	}
 
+    // Keyboard controls for moving the players spaceship
 	Game.prototype.bindEvents = function() {
 		$(document).keydown(function(e) {
 		  	var keyCode = e.keyCode || e.which;
@@ -95,8 +90,7 @@ var Game = function() {
 
 	Game.prototype.redraw = function() {
 		this.canvas.width = this.canvas.width; // clears the canvas 
-		this.player.draw(this.context);
-		// Draw enemies
+		this.player.draw(this.context); // Draw enemies
 		for (var i = 0; i < this.enemies.length; i++) {
 			// Skip dead enemies	
 			if (game.enemies[i].dead) {
@@ -125,8 +119,6 @@ var Game = function() {
 
 		this.player.x = 115 - this.player.width;
 		this.player.draw(this.context);
-
-
 		this.stop();
 	}
 
@@ -155,16 +147,10 @@ var Game = function() {
 			for (var j = 0; j < this.player.missiles.length; j++) {
 				if (missile.collide(this.player.missiles[j])) {
 					this.missiles.splice(i, 1);		
-					this.player.missiles.splice(j, 1);		
+					this.player.missiles.splice(j, 1);
 				}
 			};
 		};
-
-		// Update UFO's
-		for (var i = 0; i < this.flyingSaucers.length; i++) {
-			this.flyingSaucers[i].update()
-		};
-
 		this.redraw();
 	}
 
