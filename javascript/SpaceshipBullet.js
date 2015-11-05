@@ -1,11 +1,13 @@
-var PlayerMissile = function(player) {
+var PlayerMissile = function(player) 
+   {
 	this.width =5;
 	this.height = 5;
 	this.x = player.x + player.width / 2 - this.width / 3;
 	this.y = player.y - this.height;
 
 	this.speed = 15;
-}
+    } 
+
 	PlayerMissile.prototype.update = function() 
     {
 		this.y -= this.speed;
@@ -30,8 +32,9 @@ var PlayerMissile = function(player) {
 			}
 		};
 		
-	}
+	} // update
 
+    // draws the bullet being fired from the enemies
 	PlayerMissile.prototype.draw = function(context) 
     {
 	 	context.beginPath();
@@ -39,9 +42,9 @@ var PlayerMissile = function(player) {
 	    context.lineTo(this.x, this.y - this.height);
 	    context.lineTo(this.x + this.width, this.y - this.height);
 	    context.lineTo(this.x + this.width, this.y);
-	    context.fillStyle = "White";
+	    context.fillStyle = "Green";
 	    context.fill();
-	}
+	} // draw
 
 	PlayerMissile.prototype.collide = function(enemy)
     {
@@ -53,4 +56,4 @@ var PlayerMissile = function(player) {
 								(enemy.y < this.y && this.y + this.height < enemy.y + enemy.height)
 
 		return horizontalCollision && verticalCollision;
-	}
+	} // collide

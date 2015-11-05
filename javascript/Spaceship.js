@@ -63,8 +63,7 @@ var Player = function(image){
 		}
 	}
 
-	Player.prototype.die = function() 
-    {
+	Player.prototype.die = function() {
 		this.lives--;
         this.score - 100;
 		// Delete all missiles

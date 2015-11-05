@@ -1,7 +1,7 @@
 var EnemyMissile = function(enemy) 
 {
-	this.width = 5;
-	this.height = 5;
+	this.width = 15;
+	this.height = 12;
 	this.x = enemy.x + enemy.width / 2 - this.width / 3;
 	this.y = enemy.y + this.height;
 
@@ -13,10 +13,11 @@ var EnemyMissile = function(enemy)
 		if (this.collide(game.player)) 
         {
 			game.player.die();
-			this.y = 1000;
+			this.y = 1500; 
 		}
 	}
 
+    // draws the enemy invaders bullets
 	EnemyMissile.prototype.draw = function(context)
     {
 	 	context.beginPath();
@@ -24,10 +25,11 @@ var EnemyMissile = function(enemy)
 	    context.lineTo(this.x, this.y + this.height);
 	    context.lineTo(this.x + this.width, this.y + this.height);
 	    context.lineTo(this.x + this.width, this.y);
-	    context.fillStyle = "White";
+	    context.fillStyle = "Purple";
 	    context.fill();
 	}
 
+    // collision of the bullets - small chance of cancelling invader and spaceship bullets if collide together
 	EnemyMissile.prototype.collide = function(player) 
     {
 		horizontalCollision = (this.x < player.x && player.x < (this.x + this.width)) || 
