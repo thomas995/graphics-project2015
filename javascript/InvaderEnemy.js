@@ -1,7 +1,7 @@
 var Enemy = function(image, x, y) {
 	this.image = image;
 
-	this.width = 28; //this.image.width;
+	this.width = 35; //this.image.width;
 	this.height = 24; //this.image.height;
 
 	this.x = x + (80 - this.width) / 2;
@@ -22,7 +22,7 @@ var Enemy = function(image, x, y) {
 		}
 		this.x += this.speed();
         
-		// Shoot missle randomly
+		// Fires the Bullets at random
 		if (Math.random() < EnemyMissileChance) { this.shoot(); }
 	}
 
@@ -47,7 +47,7 @@ var Enemy = function(image, x, y) {
 
 	Enemy.prototype.die = function() {
 		this.dead = true;
-		game.score += 100 + game.level;
+		game.score += 100 + game.level; //score increases by 100 plus the level for each kill
 
 		enemyAlive = false;
 		for (var i = 0; i < game.enemies.length; i++) {

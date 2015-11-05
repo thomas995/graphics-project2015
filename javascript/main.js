@@ -28,10 +28,10 @@ var Game = function() {
 	Game.prototype.initialize = function() {
 		this.player = new Player(this.images['player']);
 		this.score = 0; // score at the beginning of the game
-		this.level = 1; // level at the beginning of the game
+		this.level = 0; // level at the beginning of the game
 		this.levelReset();
 
-		this.enemySpeed = 1;
+		this.enemySpeed = 0.5;
 
 		this.state = 'playing';
 		this.bindEvents();
@@ -102,6 +102,13 @@ var Game = function() {
 		for (missile in this.missiles) {
 			this.missiles[missile].draw(this.context);
 		}	
+        // Draw score
+		this.context.fillStyle="#195";
+		this.context.lineStyle="#222";
+		this.context.font="18px sans-serif";
+		this.context.fillText("Score: " + this.score, 20, 20);
+
+		this.context.fillText("Level: " + this.level, 130, 20);
 	}
 
 	Game.prototype.update = function() {

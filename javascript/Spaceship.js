@@ -12,8 +12,8 @@ var Player = function(image){
 	this.lives = 5; 
 	this.missiles = [];
 
-	this.speed = 8;
-	this.fireRate = 155;
+	this.speed = 10;
+	this.fireRate = 75;
 }
 	Player.prototype.update = function() {
 		// Update player's missiles
