@@ -4,7 +4,7 @@ var PlayerMissile = function(player) {
 	this.x = player.x + player.width / 2 - this.width / 3;
 	this.y = player.y - this.height;
 
-	this.speed = 5;
+	this.speed = 15;
 }
 	PlayerMissile.prototype.update = function() {
 		this.y -= this.speed;

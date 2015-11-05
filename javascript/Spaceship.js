@@ -9,11 +9,11 @@ var Player = function(image){
 	this.y = game.canvas.height - this.height - 10;
 	this.x = game.canvas.width / 2 - this.width / 2;
 
-	this.lives = 5; 
+	this.lives = 3; 
 	this.missiles = [];
 
-	this.speed = 10;
-	this.fireRate = 75;
+	this.speed = 12;
+	this.fireRate = 30;
 }
 	Player.prototype.update = function() {
 		// Update player's missiles

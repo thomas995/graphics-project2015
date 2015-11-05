@@ -29,6 +29,7 @@ var Game = function() {
 		this.player = new Player(this.images['player']);
 		this.score = 0; // score at the beginning of the game
 		this.level = 0; // level at the beginning of the game
+        this.lives = 3;
 		this.levelReset();
 
 		this.enemySpeed = 0.5;
@@ -72,13 +73,14 @@ var Game = function() {
 		  	}
 		});
 	};
-
+    // Loads images to the canvas
 	Game.prototype.loadImage = function(name) {
 		  this.images[name] = new Image();
 		  this.images[name].onload = function() { 
 		      game.resourceLoaded();
 		  }
-		  this.images[name].src = "images/" + name + ".png";
+          // Where the images are located
+		  this.images[name].src = "images/" + name + ".png"; 
 	}
 
 	Game.prototype.resourceLoaded = function() {
@@ -106,8 +108,8 @@ var Game = function() {
 		this.context.fillStyle="#195";
 		this.context.lineStyle="#222";
 		this.context.font="18px sans-serif";
+        
 		this.context.fillText("Score: " + this.score, 20, 20);
-
 		this.context.fillText("Level: " + this.level, 130, 20);
 	}
 
@@ -120,12 +122,29 @@ var Game = function() {
 	Game.prototype.updateDead = function() {
 		this.missiles = [];
 		this.enemies = [];
-		this.flyingSaucers = [];
 
 		this.canvas.width = this.canvas.width; // clears the canvas 
 
-		this.player.x = 115 - this.player.width;
+		this.player.x = 320 - this.player.width;
 		this.player.draw(this.context);
+        
+        this.context.fillStyle="#fff";
+		this.context.lineStyle="#222";
+		this.context.font="80px sans-serif";
+		this.context.fillText("You Have Been Killed", 100, 150);
+
+		this.context.font="20px sans-serif";
+		
+		this.context.font="30px sans-serif";
+		this.context.fillText("Revive using the button below", 120, 260);
+        
+        this.context.font="20px sans-serif";
+        this.context.fillText("Final Score: " + this.score, 120, 340);
+        
+        this.context.font="20px sans-serif";
+        this.context.fillText("Final Level: " + this.level, 120, 380);
+
+        
 		this.stop();
 	}
 
@@ -187,6 +206,7 @@ var Game = function() {
 		// Make the next level harder
 		this.enemySpeed = 0.5 + 0.1 * this.level;
 		EnemyMissileChance += 0.0001;
+        this.lives = this.lives++;
 	}
 
 	Game.prototype.levelReset = function() {
