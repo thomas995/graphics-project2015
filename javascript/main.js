@@ -14,14 +14,13 @@ var Game = function()
 
 	this.images = {};
 	this.sounds = {};
-	this.totalResources = 2;
+	this.totalResources = 2; // resources that will be used
 	this.numResourcesLoaded = 0;
 	this.fps = 60;
 	this.totalFrames = 0;
 
-	this.state = 'loading';
 
-	this.loadImage("player");
+	this.loadImage("player"); // images used
 	this.loadImage("invader");
 
 	this.interval = null;
@@ -31,14 +30,14 @@ var Game = function()
 		this.player = new Player(this.images['player']);
 		this.score = 0; // score at the beginning of the game
 		this.level = 0; // level at the beginning of the game
-        this.lives = 3;
+        this.lives = 5; // total lives
 		this.levelReset();
 
-		this.enemySpeed = 0.5;
+		this.enemySpeed = 0.5; // enemy speed
 
 		this.state = 'playing';
 		this.bindEvents();
-		this.interval = setInterval(this.update, 1000 / this.fps);
+		this.interval = setInterval(this.update, 350 / this.fps); // speed at which enemies shoot
 	}
 
     // Keyboard controls for moving the players spaceship
@@ -79,7 +78,7 @@ var Game = function()
 		  	}
 		});
 	};
-    // Loads images to the canvas
+    // loads the images from the images folder to the canvas to be used
 	Game.prototype.loadImage = function(name) 
     {
 		  this.images[name] = new Image();
@@ -91,6 +90,7 @@ var Game = function()
 		  this.images[name].src = "images/" + name + ".png"; 
 	}
 
+    // Allows the resources used above to be loaded into the canvas
 	Game.prototype.resourceLoaded = function() 
     {
 		this.numResourcesLoaded += 1;
@@ -100,33 +100,36 @@ var Game = function()
 		}
 	}
 
+    // controls what is drawn onto the screen
 	Game.prototype.redraw = function() 
     {
 		this.canvas.width = this.canvas.width; // clears the canvas 
-		this.player.draw(this.context); // Draw enemies
+		this.player.draw(this.context); // Draw invaders onto the canvas
 		for (var i = 0; i < this.enemies.length; i++) 
         {
-			// Skip dead enemies	
+			// Removes the enemies from the canvas after they are killed	
 			if (game.enemies[i].dead) 
             {
 				continue;				
 			}
 			this.enemies[i].draw(this.context);
 		};
-		// Draw enemy missiles
+		// Draw the bullets the enemy's fire
 		for (missile in this.missiles) 
         {
 			this.missiles[missile].draw(this.context);
 		}	
-        // Draw score
+        
+        // Draws the score for the game
 		this.context.fillStyle="#195";
 		this.context.lineStyle="#222";
 		this.context.font="18px sans-serif";
         
-		this.context.fillText("Score: " + this.score, 20, 20);
-		this.context.fillText("Level: " + this.level, 130, 20);
+		this.context.fillText("Score: " + this.score, 20, 20); // shows score
+		this.context.fillText("Level: " + this.level, 130, 20); // show level
 	}
 
+    // creates the states in which the game can be run in
 	Game.prototype.update = function() 
     {
 		if (game.state === 'pause') { return; }
@@ -134,6 +137,7 @@ var Game = function()
 		if (game.state === 'playing') { game.play() }
 	}
 
+    //Displays the game over screen on the canvas when the players health reaches 0
 	Game.prototype.updateDead = function() 
     {
 		this.missiles = [];
@@ -147,18 +151,18 @@ var Game = function()
         this.context.fillStyle="#fff";
 		this.context.lineStyle="#222";
 		this.context.font="80px sans-serif";
-		this.context.fillText("You Have Been Killed", 100, 150);
+		this.context.fillText("You Have Been Killed", 100, 150); // displays message when killed
 
 		this.context.font="20px sans-serif";
 		
 		this.context.font="30px sans-serif";
-		this.context.fillText("Revive using the button below", 120, 260);
+		this.context.fillText("Revive using the button below", 120, 260); // displays message when killed
         
         this.context.font="20px sans-serif";
-        this.context.fillText("Final Score: " + this.score, 120, 340);
+        this.context.fillText("Final Score: " + this.score, 120, 340); // displays score when killed
         
         this.context.font="20px sans-serif";
-        this.context.fillText("Final Level: " + this.level, 120, 380);
+        this.context.fillText("Final Level: " + this.level, 120, 380); // displays level when killed
 
         
 		this.stop();
@@ -168,9 +172,9 @@ var Game = function()
     {
 		this.totalFrames++;
 		this.player.update();
-		if ( leftPressed) { this.player.moveLeft() }
-		if ( rightPressed) { this.player.moveRight(); }
-		if ( spacePressed) { this.player.shoot(); }
+		if ( leftPressed) { this.player.moveLeft() } // moves the player left
+		if ( rightPressed) { this.player.moveRight(); } // moves the player right
+		if ( spacePressed) { this.player.shoot(); } // allows the player to shoot
 
 		// Update enemies
 		for (var i = 0; i < this.enemies.length; i++) 
@@ -178,17 +182,17 @@ var Game = function()
 			this.enemies[i].update();
 		};
 
-		// Update enemy missiles
+		// Allows the bullets to show up on the canvas
 		for (var i = 0; i < this.missiles.length; i++) 
         {
 			missile = this.missiles[i];
 			missile.update();
-			// Delete missile if missile is out of sight
-			if (missile.y > 640) {
+			// Deletes the button if the bullet is off the screen
+			if (missile.y > 640)
+            {
 				this.missiles.splice(i, 1);
 			}
-
-			// Player's missile collides with enemy's missile
+			// small chance of the player missile collides with enemy's missile
 			for (var j = 0; j < this.player.missiles.length; j++) 
             {
 				if (missile.collide(this.player.missiles[j])) 
@@ -198,43 +202,35 @@ var Game = function()
 				}
 			};
 		};
-		this.redraw();
+		this.redraw(); // draws the bullets
 	}
 
-	Game.prototype.aliveEnemies = function() 
-    {
-		var enemies = [];
-		for (var i = 0; i < this.enemies.length; i++) 
-        {
-			if (!this.enemies[i].dead) {
-				enemies.push(this.enemies[i]);
-			}
-		};
-		return enemies;
-	}
-
+    // resets the game
 	Game.prototype.reset = function() 
     {
 		clearInterval(this.interval);
 		game = new Game();
 	}
 
+    // stops the game
 	Game.prototype.stop = function() 
     {
 		clearInterval(this.interval);
 		game = null;
 	}
 
+    // what happens when you move onto the next level
 	Game.prototype.nextLevel = function() 
     {
-		this.levelReset();
-		this.level++;
+		this.levelReset(); // level resets
+		this.level++; // level goes up by one
 		// Make the next level harder
 		this.enemySpeed = 0.5 + 0.1 * this.level;
 		EnemyMissileChance += 0.0001;
         this.lives = this.lives++;
 	}
 
+    // what occurs when the game is reset - where everything is placed
 	Game.prototype.levelReset = function() 
     {
 		this.enemies = [];
@@ -246,30 +242,34 @@ var Game = function()
 
 		for (var i = 0; i < 10; i++) {
 			for (var y = 0; y < 5; y++) {
-				this.enemies[this.enemies.length] = new Enemy(this.images['invader'], 40 + i * 80 + 24, y * 40 + 40);
+                // where the invader is placed
+				this.enemies[this.enemies.length] = new Enemy(this.images['invader'], 40 + i * 80 + 24, y * 40 + 40); 
 			};			
 		};
 	}
 
+    
+// controls all the functions on the buttons below the games canvas    
 $('button.start').click(function() 
 {
 	// Start game
-	game = new Game();
+	game = new Game(); // new game
 });
 $('button.reset').click(function() 
 {
 	// Start game
-	game.reset();
+	game.reset(); // reset all values
 });
 
 $('button.stop').click(function() 
 {
 	// Start game
-	game.stop();
+	game.stop(); // stop the game
 });
 
 $('button.pause').click(function()
 {
+    // displays the text on the pause button
 	console.log(this);
 	if (game.state === 'pause') 
     {
@@ -281,7 +281,8 @@ $('button.pause').click(function()
 		game.state = 'pause';
 		$(this).html('Continue');
 	}
-
 });
 
 $('button.start').click();
+
+// had code for a cheat button to increase lives using similar code to the ones above but couldn't get it to function

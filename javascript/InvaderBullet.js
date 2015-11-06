@@ -7,7 +7,8 @@ var EnemyMissile = function(enemy)
 
 	this.speed = 5;
 }
-	EnemyMissile.prototype.update = function() 
+    // controls what happens when the bullet hits the player
+    EnemyMissile.prototype.update = function() 
     {
 		this.y += this.speed;
 		if (this.collide(game.player)) 
@@ -26,18 +27,25 @@ var EnemyMissile = function(enemy)
 	    context.lineTo(this.x + this.width, this.y + this.height);
 	    context.lineTo(this.x + this.width, this.y);
 	    context.fillStyle = "Purple";
-	    context.fill();
+	    context.fill(); // draws the enemies bullets
 	}
 
     // collision of the bullets - small chance of cancelling invader and spaceship bullets if collide together
 	EnemyMissile.prototype.collide = function(player) 
     {
+        // controls the x axis collision
 		horizontalCollision = (this.x < player.x && player.x < (this.x + this.width)) || 
-								(this.x < player.x + player.width && player.x + player.width < this.x + this.width) ||
+                        // prevents other invaders from disappearing
+								(this.x < player.x + player.width && player.x + player.width < this.x + this.width) || 
+                        // prevents other invaders from disappearing    
 								(player.x < this.x && this.x + this.width < player.x + player.width)
+        
+        // controls the y axis collision
 		verticalCollision = (this.y < player.y && player.y < this.y + this.height) || 
-								(this.y < player.y + player.height && player.y + player.height < this.y + this.height) ||
-								(player.y < this.y && this.y + this.height < player.y + player.height)
+                        // prevents other invaders from disappearing
+				             this.y < player.y + player.height && player.y + player.height < this.y + this.height) ||
+                        // prevents other invaders from disappearing
+				             (player.y < this.y && this.y + this.height < player.y + player.height)
 
-		return horizontalCollision && verticalCollision;
+		return horizontalCollision && verticalCollision; // returns the collision values to be used
 	}

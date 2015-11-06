@@ -1,8 +1,8 @@
 var Enemy = function(image, x, y) {
 	this.image = image;
 
-	this.width = 42; //sets width of the invaders
-	this.height = 38; //sets height of the invaders
+	this.width = 36; //sets width of the invaders
+	this.height = 31; //sets height of the invaders
 
 	this.x = x + (80 - this.width) / 2;
 	this.y = y;
@@ -20,7 +20,7 @@ var Enemy = function(image, x, y) {
 		if (this.dead) { return }
 
         // controls how far on the screen the invaders go before moving onto the next line
-		if (this.x + this.speed() < 20 || this.x + this.width + this.speed() > game.width - 40) 
+		if (this.x + this.speed() < 0 || this.x + this.width + this.speed() > game.width - 0) 
         {
 			this.moveDown(true);
 		}
@@ -53,6 +53,7 @@ var Enemy = function(image, x, y) {
 		}
 	}
 
+    // controls what happens when an enemy invader has been killed
 	Enemy.prototype.die = function() 
     {
 		this.dead = true;
@@ -67,9 +68,10 @@ var Enemy = function(image, x, y) {
 				break;
 			}
 		};
-		if (enemyAlive === false) { game.nextLevel(); }
+		if (enemyAlive === false) { game.nextLevel(); } // if dead then move to the next level
 	}
 
+    // controls enemies speed
 	Enemy.prototype.speed = function() 
     {
 		return game.enemySpeed;
