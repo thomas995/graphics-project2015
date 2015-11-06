@@ -43,7 +43,7 @@ var EnemyMissile = function(enemy)
         // controls the y axis collision
 		verticalCollision = (this.y < player.y && player.y < this.y + this.height) || 
                         // prevents other invaders from disappearing
-				             this.y < player.y + player.height && player.y + player.height < this.y + this.height) ||
+				             this.y < player.y + player.height && player.y + player.height < this.y + this.height ||
                         // prevents other invaders from disappearing
 				             (player.y < this.y && this.y + this.height < player.y + player.height)
 

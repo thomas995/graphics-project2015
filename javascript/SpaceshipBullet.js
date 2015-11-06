@@ -55,4 +55,4 @@ var PlayerMissile = function(player)
 				             (enemy.y < this.y && this.y + this.height < enemy.y + enemy.height)
 
 		return horizontalCollision && verticalCollision;
-	} 
+	}
